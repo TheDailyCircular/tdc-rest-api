@@ -26,6 +26,8 @@ public class Circular implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String text;
 
+    private Date expirationDate;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JsonIgnore
     private User user;
@@ -46,6 +48,10 @@ public class Circular implements Serializable {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = new Date();
+    }
+
+    public Boolean isExpired() {
+        return (new Date().after(this.expirationDate));
     }
 
 }
