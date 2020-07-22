@@ -32,8 +32,9 @@ public class Organization implements Serializable {
     @JsonIgnore
     private User user;
 
-//    @OneToMany(mappedBy = "organization", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, orphanRemoval = true)
-//    private List<Circular> circulars = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Circular> circulars = new ArrayList<>();
 
     private Date createdAt;
 
