@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "circular/")
+@RequestMapping(path = "circular")
 public class CircularController {
 
     @Autowired
@@ -23,8 +23,8 @@ public class CircularController {
     @Autowired
     private ValidationErrorMappingServices validationErrorMappingServices;
 
-    @PostMapping("create")
-    public ResponseEntity<?> create(@Valid @RequestBody Circular circular, BindingResult result) {
+    @PostMapping("/create")
+    public ResponseEntity<?> saveOrUpdate(@Valid @RequestBody Circular circular, BindingResult result) {
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) {
             return errorMap;
@@ -32,8 +32,15 @@ public class CircularController {
         return new ResponseEntity<>(circularServices.saveOrUpdate(circular), HttpStatus.CREATED);
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public List<Circular> getAll() {
         return circularServices.getAll();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable Long id) {
+        return new ResponseEntity<>(circularServices.get(id), HttpStatus.OK);
+    }
+
+
 }
