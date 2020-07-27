@@ -26,10 +26,6 @@ public class Message implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JsonIgnore
-    private User user;
-
     private Date createdAt;
 
     @PrePersist
