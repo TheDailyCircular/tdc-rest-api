@@ -30,4 +30,9 @@ public class UserController {
         }
         return new ResponseEntity<>(userServices.registerNewUser(user), HttpStatus.CREATED);
     }
+
+    @GetMapping("/circulars/{username}")
+    public ResponseEntity<?> getCirculars(@PathVariable("username") String username) {
+        return new ResponseEntity<>(userServices.getCirculars(username), HttpStatus.OK);
+    }
 }
