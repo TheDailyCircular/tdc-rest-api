@@ -17,4 +17,10 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         EntityIdNotFoundExceptionResponse exceptionResponse = new EntityIdNotFoundExceptionResponse(ex.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public final ResponseEntity<Object> handleUserEmailAlreadyRegisteredException(UserEmailAlreadyRegisteredException ex, WebRequest request) {
+        UserEmailAlreadyRegisteredExceptionResponse exceptionResponse = new UserEmailAlreadyRegisteredExceptionResponse(ex.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
 }
