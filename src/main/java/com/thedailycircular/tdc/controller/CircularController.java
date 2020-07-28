@@ -15,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "circular")
+@RequestMapping(path = "api/circular")
 public class CircularController {
 
     @Autowired
