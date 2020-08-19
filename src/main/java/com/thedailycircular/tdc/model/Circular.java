@@ -19,6 +19,10 @@ public class Circular implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Circular Title can not be empty")
+    @Column(length = 500)
+    private String title;
+
     @NotBlank(message = "Circular Text can not be empty")
     @Column(columnDefinition = "TEXT")
     private String text;
