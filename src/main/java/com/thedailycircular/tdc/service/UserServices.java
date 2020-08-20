@@ -4,7 +4,9 @@ import com.thedailycircular.tdc.exception.UserEmailAlreadyRegisteredException;
 import com.thedailycircular.tdc.model.Circular;
 import com.thedailycircular.tdc.model.User;
 import com.thedailycircular.tdc.repository.UserRepository;
+import com.thedailycircular.tdc.security.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -20,6 +24,9 @@ public class UserServices implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JWTUtility jwtUtility;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,8 +40,20 @@ public class UserServices implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 userFromDB.getUsername(),
                 userFromDB.getPassword(),
-                null // authority will be updated
+                true,
+                true,
+                true,
+                true,
+                getAuthorities() // authority will be updated
         );
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+//        for (UserRoles userRoles : userRolesList) {
+//            authorities.add(new SimpleGrantedAuthority(userRoles.getRole().getRoleName()));
+//        }
+        return authorities;
     }
 
     public User registerNewUser(User newUser) {
