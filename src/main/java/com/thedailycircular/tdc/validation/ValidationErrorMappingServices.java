@@ -22,4 +22,11 @@ public class ValidationErrorMappingServices {
         }
         return null;
     }
+
+    public ResponseEntity<?> invalidEmailPasswordForLogin() {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("username", "Invalid email or password");
+        errorMap.put("password", "Invalid email or password");
+        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+    }
 }
