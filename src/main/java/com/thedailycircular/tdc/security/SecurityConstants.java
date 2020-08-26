@@ -6,5 +6,5 @@ public class SecurityConstants {
     public static final String SECRET_KEY = "SecretKey";
     public static final String JWT_TOKEN_PREFIX = "Bearer ";
     public static final String REQUEST_HEADER_NAME = "Authorization";
-    public static final long TOKEN_DURATION = 60000;
+    public static final long TOKEN_DURATION = 2592000000L;
 }
