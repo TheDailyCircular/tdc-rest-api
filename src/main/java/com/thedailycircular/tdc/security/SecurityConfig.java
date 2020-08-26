@@ -19,8 +19,7 @@ import org.springframework.security.web.savedrequest.SimpleSavedRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.thedailycircular.tdc.security.SecurityConstants.LOGIN_URL;
-import static com.thedailycircular.tdc.security.SecurityConstants.SIGNUP_URL;
+import static com.thedailycircular.tdc.security.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -74,7 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll()
                 .antMatchers(
                         LOGIN_URL,
-                        SIGNUP_URL
+                        SIGNUP_URL,
+                        CIRCULAR_PUBLIC_URLS
                 ).permitAll()
                 .anyRequest().authenticated();
         http

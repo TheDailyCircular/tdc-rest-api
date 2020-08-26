@@ -39,14 +39,14 @@ public class CircularController {
         return new ResponseEntity<>(circularServices.saveOrUpdate(circular), HttpStatus.CREATED);
     }
 
-    @GetMapping("/circulars")
+    @GetMapping("/get/circulars")
     public Page<Circular> getAll(@RequestParam Optional<Date> date,
                                  @RequestParam Optional<Integer> page,
                                  @RequestParam Optional<Integer> size) {
         return circularServices.getAll(date.orElse(new Date()), page.orElse(0), size.orElse(5));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> get(@PathVariable Long id) {
         return new ResponseEntity<>(circularServices.get(id), HttpStatus.OK);
     }
