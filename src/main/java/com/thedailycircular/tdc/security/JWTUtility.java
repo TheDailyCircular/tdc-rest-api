@@ -1,6 +1,8 @@
 package com.thedailycircular.tdc.security;
 
+import com.thedailycircular.tdc.model.User;
 import io.jsonwebtoken.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static com.thedailycircular.tdc.security.SecurityConstants.SECRET_KEY;
+import static com.thedailycircular.tdc.security.SecurityConstants.TOKEN_DURATION;
+
 @Service
 public class JWTUtility {
-
-    private static final String SECRET_KEY = "zxcvb";
-    private static final long DURATION = 30 * 24 * 3600 * 1000;
 
     private Boolean isValidToken(String token) {
         try {
@@ -63,19 +65,30 @@ public class JWTUtility {
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
-        return Jwts
-                .builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + DURATION))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
-    }
+    /**
+     * generate token
+     *
+     * @param authentication
+     * @return
+     */
+    public String generateToken(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
 
-    public String generateToken(UserDetails userDetails) {
+        Date now = new Date(System.currentTimeMillis());
+
+        Date expiryDate = new Date(now.getTime() + TOKEN_DURATION);
+
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        claims.put("username", user.getUsername());
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
+
+        return Jwts.builder()
+                .setSubject(Long.toString(user.getId()))
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .compact();
     }
 }

@@ -33,27 +33,11 @@ public class UserServices implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User userFromDB = userRepository.findByUsername(username);
-        if (userFromDB == null) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new org.springframework.security.core.userdetails.User(
-                userFromDB.getUsername(),
-                userFromDB.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                getAuthorities() // authority will be updated
-        );
-    }
-
-    private Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-//        for (UserRoles userRoles : userRolesList) {
-//            authorities.add(new SimpleGrantedAuthority(userRoles.getRole().getRoleName()));
-//        }
-        return authorities;
+        return user;
     }
 
     public User registerNewUser(User newUser) {

@@ -2,6 +2,7 @@ package com.thedailycircular.tdc.controller;
 
 import com.thedailycircular.tdc.model.User;
 import com.thedailycircular.tdc.service.UserServices;
+import com.thedailycircular.tdc.validation.UserValidator;
 import com.thedailycircular.tdc.validation.ValidationErrorMappingServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,14 @@ public class UserController {
     private UserServices userServices;
 
     @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
     private ValidationErrorMappingServices validationErrorMappingServices;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerNewUser(@Valid @RequestBody User user, BindingResult result) {
+        userValidator.validate(user, result);
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) {
             return errorMap;

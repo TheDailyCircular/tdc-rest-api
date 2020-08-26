@@ -1,4 +1,4 @@
-package com.thedailycircular.tdc.model.jwt;
+package com.thedailycircular.tdc.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
