@@ -8,4 +8,5 @@ public class SecurityConstants {
     public static final String JWT_TOKEN_PREFIX = "Bearer ";
     public static final String REQUEST_HEADER_NAME = "Authorization";
     public static final long TOKEN_DURATION = 2592000000L;
+    public static final int PASSWORD_MINIMUM_LENGTH = 8;
 }
