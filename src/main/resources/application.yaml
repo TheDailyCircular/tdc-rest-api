@@ -15,3 +15,14 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <email>
+    password: <password>
+    properties:
+      mail:
+        smtp:
+          auth: true
+          enable: true
