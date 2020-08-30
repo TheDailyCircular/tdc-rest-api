@@ -2,11 +2,11 @@ package com.thedailycircular.tdc.service;
 
 import com.thedailycircular.tdc.exception.UserEmailAlreadyRegisteredException;
 import com.thedailycircular.tdc.model.Circular;
+import com.thedailycircular.tdc.model.EmailVerificationToken;
 import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.repository.EmailVerificationTokenRepository;
 import com.thedailycircular.tdc.repository.UserRepository;
-import com.thedailycircular.tdc.security.JWTUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -26,10 +24,10 @@ public class UserServices implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private JWTUtility jwtUtility;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private EmailVerificationTokenRepository emailVerificationTokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,5 +53,12 @@ public class UserServices implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return user.getCirculars();
+    }
+
+    public void createEmailVerificationToken(User user, String token) {
+        EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
+        emailVerificationToken.setUser(user);
+        emailVerificationToken.setToken(token);
+        emailVerificationTokenRepository.save(emailVerificationToken);
     }
 }
