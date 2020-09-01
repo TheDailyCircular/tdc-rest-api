@@ -1,13 +1,12 @@
 package com.thedailycircular.tdc.event;
 
 import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.service.MailServices;
 import com.thedailycircular.tdc.service.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
-import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -21,13 +20,10 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private MessageSource messageSource;
 
     @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
     private UserServices userServices;
 
     @Autowired
-    private Environment environment;
+    private MailServices mailServices;
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -40,11 +36,8 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         userServices.createEmailVerificationToken(user, token);
 
         final SimpleMailMessage email = constructEmailMessage(event, user, token);
-        try {
-            mailSender.send(email);
-        } catch (Exception ex) {
-            throw ex;
-        }
+
+//        mailServices.sendMail(email);
     }
 
     private SimpleMailMessage constructEmailMessage(
@@ -63,7 +56,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         email.setTo(recipientAddress);
         email.setSubject(subject);
         email.setText(message + " \r\n" + confirmationUrl);
-        email.setFrom(environment.getProperty("spring.mail.username"));
+        email.setFrom(EMAIL_CONFIRMATION_SENDER);
         return email;
     }
 }

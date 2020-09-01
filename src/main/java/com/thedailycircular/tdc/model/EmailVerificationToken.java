@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-import static com.thedailycircular.tdc.security.SecurityConstants.EMAIL_VERIFICATION_TOKEN_DURATION;
+import static com.thedailycircular.tdc.security.SecurityConstants.EMAIL_CONFIRMATION_TOKEN_DURATION;
 
 @Getter
 @Setter
@@ -35,7 +35,7 @@ public class EmailVerificationToken {
     protected void onCreate() {
         this.createdAt = new Date();
         Date now = new Date(System.currentTimeMillis());
-        this.expirationDate = new Date(now.getTime() + EMAIL_VERIFICATION_TOKEN_DURATION);
+        this.expirationDate = new Date(now.getTime() + EMAIL_CONFIRMATION_TOKEN_DURATION);
     }
 
 }
