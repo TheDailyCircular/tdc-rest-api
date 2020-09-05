@@ -16,8 +16,8 @@ public class AuthenticationRequest {
 
     @Email(message = "Provide a valid email")
     @NotBlank(message = "Email is required")
-    private String username;
+    protected String username;
 
     @NotBlank(message = "Password is required")
-    private String password;
+    protected String password;
 }

@@ -1,6 +1,6 @@
 package com.thedailycircular.tdc.security;
 
-import com.thedailycircular.tdc.service.UserServices;
+import com.thedailycircular.tdc.service.ApplicationUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ import static com.thedailycircular.tdc.security.SecurityConstants.*;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserServices userServices;
+    private ApplicationUserServices applicationUserServices;
 
     @Autowired
     private JWTRequestFilter jwtRequestFilter;
@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userServices);
+        auth.userDetailsService(applicationUserServices);
     }
 
     @Override

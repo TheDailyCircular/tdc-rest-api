@@ -1,6 +1,6 @@
 package com.thedailycircular.tdc.security;
 
-import com.thedailycircular.tdc.service.UserServices;
+import com.thedailycircular.tdc.service.ApplicationUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +22,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
     private JWTUtility jwtUtility;
 
     @Autowired
-    private UserServices userServices;
+    private ApplicationUserServices applicationUserServices;
 
     @Override
     protected void doFilterInternal(
@@ -40,7 +40,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userServices.loadUserByUsername(username);
+            UserDetails userDetails = this.applicationUserServices.loadUserByUsername(username);
             if (jwtUtility.validateTokenByUserDetails(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken
                         usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

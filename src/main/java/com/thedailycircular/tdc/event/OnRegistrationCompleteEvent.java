@@ -1,6 +1,6 @@
 package com.thedailycircular.tdc.event;
 
-import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.model.ApplicationUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
@@ -12,13 +12,13 @@ import java.util.Locale;
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
     private String appUrl;
     private Locale locale;
-    private User user;
+    private ApplicationUser applicationUser;
 
-    public OnRegistrationCompleteEvent(User user, Locale locale, String appUrl) {
-        super(user);
+    public OnRegistrationCompleteEvent(ApplicationUser applicationUser, Locale locale, String appUrl) {
+        super(applicationUser);
 
         this.appUrl = appUrl;
         this.locale = locale;
-        this.user = user;
+        this.applicationUser = applicationUser;
     }
 }

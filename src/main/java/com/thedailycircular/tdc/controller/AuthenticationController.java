@@ -3,7 +3,7 @@ package com.thedailycircular.tdc.controller;
 import com.thedailycircular.tdc.payload.AuthenticationRequest;
 import com.thedailycircular.tdc.payload.AuthenticationResponse;
 import com.thedailycircular.tdc.security.JWTUtility;
-import com.thedailycircular.tdc.service.UserServices;
+import com.thedailycircular.tdc.service.ApplicationUserServices;
 import com.thedailycircular.tdc.validation.ValidationErrorMappingServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserServices userServices;
+    private ApplicationUserServices applicationUserServices;
 
     @Autowired
     private JWTUtility jwtUtility;

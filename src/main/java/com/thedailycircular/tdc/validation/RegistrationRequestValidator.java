@@ -1,6 +1,6 @@
 package com.thedailycircular.tdc.validation;
 
-import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.payload.RegistrationRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -8,23 +8,25 @@ import org.springframework.validation.Validator;
 import static com.thedailycircular.tdc.security.SecurityConstants.PASSWORD_MINIMUM_LENGTH;
 
 @Component
-public class UserValidator implements Validator {
+public class RegistrationRequestValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return RegistrationRequest.class.equals(aClass);
     }
 
     @Override
     public void validate(Object object, Errors errors) {
-        User user = (User) object;
+        RegistrationRequest registrationRequest = (RegistrationRequest) object;
 
-        if (user.getPassword().length() < PASSWORD_MINIMUM_LENGTH) {
+        if (registrationRequest.getPassword() == null ||
+                registrationRequest.getPassword().length() < PASSWORD_MINIMUM_LENGTH) {
             errors.rejectValue("password", "Length",
                     "Password must be at least " + PASSWORD_MINIMUM_LENGTH + " characters");
         }
 
-        if (!user.getPassword().equals(user.getConfirmPassword())) {
+        if (registrationRequest.getConfirmPassword() == null ||
+                !registrationRequest.getPassword().equals(registrationRequest.getConfirmPassword())) {
             errors.rejectValue("confirmPassword", "Match", "Passwords must match");
         }
     }

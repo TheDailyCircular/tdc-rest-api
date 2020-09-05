@@ -25,7 +25,7 @@ public class EmailVerificationToken {
 
     @OneToOne
     @JoinColumn(nullable = false)
-    private User user;
+    private ApplicationUser applicationUser;
 
     private Date expirationDate;
 

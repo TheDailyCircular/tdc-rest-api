@@ -1,9 +1,10 @@
 package com.thedailycircular.tdc.controller;
 
 import com.thedailycircular.tdc.event.OnRegistrationCompleteEvent;
-import com.thedailycircular.tdc.model.User;
-import com.thedailycircular.tdc.service.UserServices;
-import com.thedailycircular.tdc.validation.UserValidator;
+import com.thedailycircular.tdc.model.ApplicationUser;
+import com.thedailycircular.tdc.payload.RegistrationRequest;
+import com.thedailycircular.tdc.service.ApplicationUserServices;
+import com.thedailycircular.tdc.validation.RegistrationRequestValidator;
 import com.thedailycircular.tdc.validation.ValidationErrorMappingServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,39 +21,48 @@ import javax.validation.Valid;
 @RequestMapping(path = "api/user")
 public class UserController {
 
-    @Autowired
-    private UserServices userServices;
+    private final ApplicationUserServices applicationUserServices;
+
+    private final RegistrationRequestValidator registrationRequestValidator;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final ValidationErrorMappingServices validationErrorMappingServices;
 
     @Autowired
-    private UserValidator userValidator;
+    public UserController(ApplicationUserServices applicationUserServices,
+                          RegistrationRequestValidator registrationRequestValidator,
+                          ApplicationEventPublisher applicationEventPublisher,
+                          ValidationErrorMappingServices validationErrorMappingServices) {
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
-
-    @Autowired
-    private ValidationErrorMappingServices validationErrorMappingServices;
+        this.applicationUserServices = applicationUserServices;
+        this.registrationRequestValidator = registrationRequestValidator;
+        this.applicationEventPublisher = applicationEventPublisher;
+        this.validationErrorMappingServices = validationErrorMappingServices;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerNewUser(
-            @Valid @RequestBody User user, BindingResult result, HttpServletRequest request) {
+            @Valid @RequestBody RegistrationRequest registrationRequest,
+            BindingResult result, HttpServletRequest request) {
 
-        userValidator.validate(user, result);
+        registrationRequestValidator.validate(registrationRequest, result);
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
-        if (errorMap != null) {
-            return errorMap;
-        }
-        User registeredUser = userServices.registerNewUser(user);
+        if (errorMap != null) return errorMap;
+
+        ApplicationUser registeredApplicationUser =
+                applicationUserServices.registerNewUser(registrationRequest.createUser());
         String appUrl = request.getContextPath();
         applicationEventPublisher.publishEvent(
                 new OnRegistrationCompleteEvent(
-                        registeredUser, request.getLocale(), appUrl
+                        registeredApplicationUser, request.getLocale(), appUrl
                 )
         );
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(registeredApplicationUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/circulars/{username}")
     public ResponseEntity<?> getCirculars(@PathVariable("username") String username) {
-        return new ResponseEntity<>(userServices.getCirculars(username), HttpStatus.OK);
+        return new ResponseEntity<>(applicationUserServices.getCirculars(username), HttpStatus.OK);
     }
 }

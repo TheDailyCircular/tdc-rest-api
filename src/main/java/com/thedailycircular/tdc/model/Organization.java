@@ -30,7 +30,7 @@ public class Organization implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
-    private User user;
+    private ApplicationUser applicationUser;
 
     @JsonIgnore
     @OneToMany(mappedBy = "organization", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, orphanRemoval = true)

@@ -19,8 +19,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"circulars", "organizations", "notifications", "messages"})
-public class User implements UserDetails, Serializable {
+public class ApplicationUser implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,17 +30,10 @@ public class User implements UserDetails, Serializable {
     @Column(unique = true)
     private String username;
 
-    @NotBlank(message = "firstName can not be empty")
-    private String firstName;
-
-    @NotBlank(message = "lastName can not be empty")
-    private String lastName;
-
     @NotBlank(message = "password can not be empty")
     private String password;
 
-    @Transient
-    private String confirmPassword;
+    private Boolean accountNonExpired = true;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -51,7 +43,7 @@ public class User implements UserDetails, Serializable {
     private List<Organization> organizations = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Resume resume = new Resume();
+    private Resume resume;
 
     private Date createdAt;
 
@@ -79,7 +71,7 @@ public class User implements UserDetails, Serializable {
     @Override
     @JsonIgnore
     public boolean isAccountNonExpired() {
-        return true;
+        return accountNonExpired;
     }
 
     @Override

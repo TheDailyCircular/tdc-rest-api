@@ -1,7 +1,7 @@
 package com.thedailycircular.tdc.validation;
 
 import com.thedailycircular.tdc.model.Circular;
-import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.model.ApplicationUser;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -17,8 +17,8 @@ public class CircularValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Circular circular = (Circular) o;
 
-        User user = circular.getUser();
-        if (user.getId() == null) {
+        ApplicationUser applicationUser = circular.getApplicationUser();
+        if (applicationUser.getId() == null) {
             errors.rejectValue("user", "user", "user is invalid");
         }
     }

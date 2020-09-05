@@ -1,6 +1,6 @@
 package com.thedailycircular.tdc.security;
 
-import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.model.ApplicationUser;
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,19 +72,19 @@ public class JWTUtility {
      * @return
      */
     public String generateToken(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+        ApplicationUser applicationUser = (ApplicationUser) authentication.getPrincipal();
 
         Date now = new Date(System.currentTimeMillis());
 
         Date expiryDate = new Date(now.getTime() + TOKEN_DURATION);
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", user.getUsername());
-        claims.put("firstName", user.getFirstName());
-        claims.put("lastName", user.getLastName());
+        claims.put("username", applicationUser.getUsername());
+        claims.put("firstName", applicationUser.getResume().getFirstName());
+        claims.put("lastName", applicationUser.getResume().getLastName());
 
         return Jwts.builder()
-                .setSubject(Long.toString(user.getId()))
+                .setSubject(Long.toString(applicationUser.getId()))
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)

@@ -1,8 +1,8 @@
 package com.thedailycircular.tdc.event;
 
-import com.thedailycircular.tdc.model.User;
+import com.thedailycircular.tdc.model.ApplicationUser;
 import com.thedailycircular.tdc.service.MailServices;
-import com.thedailycircular.tdc.service.UserServices;
+import com.thedailycircular.tdc.service.ApplicationUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
@@ -20,7 +20,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private MessageSource messageSource;
 
     @Autowired
-    private UserServices userServices;
+    private ApplicationUserServices applicationUserServices;
 
     @Autowired
     private MailServices mailServices;
@@ -31,19 +31,19 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     }
 
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
-        User user = event.getUser();
+        ApplicationUser applicationUser = event.getApplicationUser();
         String token = UUID.randomUUID().toString();
-        userServices.createEmailVerificationToken(user, token);
+        applicationUserServices.createEmailVerificationToken(applicationUser, token);
 
-        final SimpleMailMessage email = constructEmailMessage(event, user, token);
+        final SimpleMailMessage email = constructEmailMessage(event, applicationUser, token);
 
 //        mailServices.sendMail(email);
     }
 
     private SimpleMailMessage constructEmailMessage(
-            final OnRegistrationCompleteEvent event, final User user, final String token) {
+            final OnRegistrationCompleteEvent event, final ApplicationUser applicationUser, final String token) {
 
-        final String recipientAddress = user.getUsername();
+        final String recipientAddress = applicationUser.getUsername();
         final String subject = EMAIL_CONFIRMATION_SUBJECT;
         final String confirmationUrl = event.getAppUrl() + EMAIL_CONFIRMATION_URL + ".html?token=" + token;
         final String message = messageSource.getMessage(

@@ -1,11 +1,11 @@
 package com.thedailycircular.tdc.service;
 
 import com.thedailycircular.tdc.exception.UserEmailAlreadyRegisteredException;
+import com.thedailycircular.tdc.model.ApplicationUser;
 import com.thedailycircular.tdc.model.Circular;
 import com.thedailycircular.tdc.model.EmailVerificationToken;
-import com.thedailycircular.tdc.model.User;
 import com.thedailycircular.tdc.repository.EmailVerificationTokenRepository;
-import com.thedailycircular.tdc.repository.UserRepository;
+import com.thedailycircular.tdc.repository.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,10 +18,10 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserServices implements UserDetailsService {
+public class ApplicationUserServices implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private ApplicationUserRepository applicationUserRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -31,33 +31,33 @@ public class UserServices implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
+        if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return user;
+        return applicationUser;
     }
 
-    public User registerNewUser(User newUser) {
+    public ApplicationUser registerNewUser(ApplicationUser newApplicationUser) {
         try {
-            newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-            return userRepository.save(newUser);
+            newApplicationUser.setPassword(bCryptPasswordEncoder.encode(newApplicationUser.getPassword()));
+            return applicationUserRepository.save(newApplicationUser);
         } catch (Exception ex) {
-            throw new UserEmailAlreadyRegisteredException(newUser.getUsername() + " already registered");
+            throw new UserEmailAlreadyRegisteredException(newApplicationUser.getUsername() + " already registered");
         }
     }
 
     public List<Circular> getCirculars(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
+        if (applicationUser == null) {
             throw new UsernameNotFoundException(username);
         }
-        return user.getCirculars();
+        return applicationUser.getCirculars();
     }
 
-    public void createEmailVerificationToken(User user, String token) {
+    public void createEmailVerificationToken(ApplicationUser applicationUser, String token) {
         EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
-        emailVerificationToken.setUser(user);
+        emailVerificationToken.setApplicationUser(applicationUser);
         emailVerificationToken.setToken(token);
         emailVerificationTokenRepository.save(emailVerificationToken);
     }

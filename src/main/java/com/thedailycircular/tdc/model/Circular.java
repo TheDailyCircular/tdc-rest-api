@@ -30,7 +30,7 @@ public class Circular implements Serializable {
     private Date expirationDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private User user;
+    private ApplicationUser applicationUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Organization organization;
