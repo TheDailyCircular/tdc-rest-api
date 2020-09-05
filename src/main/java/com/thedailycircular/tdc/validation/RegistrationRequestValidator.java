@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import static com.thedailycircular.tdc.security.SecurityConstants.PASSWORD_MAXIMUM_LENGTH;
 import static com.thedailycircular.tdc.security.SecurityConstants.PASSWORD_MINIMUM_LENGTH;
 
 @Component
@@ -23,6 +24,11 @@ public class RegistrationRequestValidator implements Validator {
                 registrationRequest.getPassword().length() < PASSWORD_MINIMUM_LENGTH) {
             errors.rejectValue("password", "Length",
                     "Password must be at least " + PASSWORD_MINIMUM_LENGTH + " characters");
+        }
+
+        if (registrationRequest.getPassword().length() > PASSWORD_MAXIMUM_LENGTH) {
+            errors.rejectValue("password", "Length",
+                    "Password must be at max " + PASSWORD_MAXIMUM_LENGTH + " characters");
         }
 
         if (registrationRequest.getConfirmPassword() == null ||

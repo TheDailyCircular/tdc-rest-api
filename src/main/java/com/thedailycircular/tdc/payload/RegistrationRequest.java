@@ -23,7 +23,7 @@ public class RegistrationRequest extends AuthenticationRequest {
     @NotBlank(message = "lastName can not be empty")
     private String lastName;
 
-    public ApplicationUser createUser() {
+    public ApplicationUser createApplicationUser() {
         ApplicationUser applicationUser = new ApplicationUser();
         applicationUser.setUsername(username);
         applicationUser.setPassword(password);
@@ -31,8 +31,8 @@ public class RegistrationRequest extends AuthenticationRequest {
         Resume resume = new Resume();
         resume.setFirstName(firstName);
         resume.setLastName(lastName);
-        applicationUser.setResume(resume);
 
+        applicationUser.setResume(resume);
         return applicationUser;
     }
 }

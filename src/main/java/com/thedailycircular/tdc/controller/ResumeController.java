@@ -1,12 +1,9 @@
 package com.thedailycircular.tdc.controller;
 
-import com.thedailycircular.tdc.model.EducationalQualification;
 import com.thedailycircular.tdc.model.Resume;
 import com.thedailycircular.tdc.service.ResumeServices;
-import com.thedailycircular.tdc.validation.EducationalQualificationValidator;
 import com.thedailycircular.tdc.validation.ResumeValidator;
 import com.thedailycircular.tdc.validation.ValidationErrorMappingServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,30 +16,29 @@ import javax.validation.Valid;
 @RequestMapping(path = "api/user/resume")
 public class ResumeController {
 
-    @Autowired
-    private ResumeServices resumeServices;
+    private final ResumeServices resumeServices;
 
-    @Autowired
-    private ResumeValidator resumeValidator;
+    private final ResumeValidator resumeValidator;
 
-    @Autowired
-    private EducationalQualificationValidator educationalQualificationValidator;
+    private final ValidationErrorMappingServices validationErrorMappingServices;
 
-    @Autowired
-    private ValidationErrorMappingServices validationErrorMappingServices;
+    public ResumeController(ResumeServices resumeServices,
+                            ResumeValidator resumeValidator,
+                            ValidationErrorMappingServices validationErrorMappingServices) {
+
+        this.resumeServices = resumeServices;
+        this.resumeValidator = resumeValidator;
+        this.validationErrorMappingServices = validationErrorMappingServices;
+    }
 
     @PostMapping("/update")
     public ResponseEntity<?> update(@Valid @RequestBody Resume resume, BindingResult result) {
         resumeValidator.validate(resume, result);
-        for (EducationalQualification educationalQualification :
-                resume.getEducationalQualifications()) {
-            educationalQualificationValidator.validate(educationalQualification, result);
-        }
 
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) return errorMap;
 
-        return new ResponseEntity<>(resumeServices.save(resume), HttpStatus.CREATED);
+        return new ResponseEntity<>(resumeServices.update(resume), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

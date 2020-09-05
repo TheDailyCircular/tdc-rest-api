@@ -41,4 +41,18 @@ public class WorkExperience implements Serializable {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Resume resume;
+
+    private Date createdAt;
+
+    private Date updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
+    }
 }

@@ -3,7 +3,6 @@ package com.thedailycircular.tdc.service;
 import com.thedailycircular.tdc.exception.EntityIdNotFoundException;
 import com.thedailycircular.tdc.model.Resume;
 import com.thedailycircular.tdc.repository.ResumeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ResumeServices {
 
-    @Autowired
-    private ResumeRepository resumeRepository;
+    private final ResumeRepository resumeRepository;
+
+    public ResumeServices(ResumeRepository resumeRepository) {
+        this.resumeRepository = resumeRepository;
+    }
 
     public Resume get(Long id) {
         if (!resumeRepository.existsById(id)) {
@@ -22,7 +24,26 @@ public class ResumeServices {
     }
 
     public Resume save(Resume resume) {
+        /* set resume field for educationalQualifications */
+        resume
+                .getEducationalQualifications()
+                .forEach(educationalQualification -> educationalQualification.setResume(resume));
+        /* set resume field for workExperiences */
+        resume
+                .getWorkExperiences()
+                .forEach(workExperience -> workExperience.setResume(resume));
+
         return resumeRepository.save(resume);
     }
 
+    public Resume update(Resume resume) {
+        if (resume.getId() == null) {
+            throw new EntityIdNotFoundException("Resume id is needed for update");
+        }
+        if (!resumeRepository.existsById(resume.getId())) {
+            throw new EntityIdNotFoundException("Resume with ID: " + resume.getId() + " doesn't exist");
+        }
+
+        return save(resume);
+    }
 }

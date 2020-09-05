@@ -33,6 +33,9 @@ public class ApplicationUser implements UserDetails, Serializable {
     @NotBlank(message = "password can not be empty")
     private String password;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Resume resume;
+
     private Boolean accountNonExpired = true;
 
     @JsonIgnore
@@ -41,9 +44,6 @@ public class ApplicationUser implements UserDetails, Serializable {
 
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Organization> organizations = new ArrayList<>();
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Resume resume;
 
     private Date createdAt;
 

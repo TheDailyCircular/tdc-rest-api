@@ -51,7 +51,7 @@ public class ApplicationUserController {
         if (errorMap != null) return errorMap;
 
         ApplicationUser registeredApplicationUser =
-                applicationUserServices.registerNewUser(registrationRequest.createUser());
+                applicationUserServices.registerNewUser(registrationRequest.createApplicationUser());
         String appUrl = request.getContextPath();
         applicationEventPublisher.publishEvent(
                 new OnRegistrationCompleteEvent(
