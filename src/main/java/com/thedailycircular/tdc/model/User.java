@@ -51,7 +51,7 @@ public class User implements UserDetails, Serializable {
     private List<Organization> organizations = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Resume resume;
+    private Resume resume = new Resume();
 
     private Date createdAt;
 
