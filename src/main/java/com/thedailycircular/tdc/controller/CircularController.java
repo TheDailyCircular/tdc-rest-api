@@ -4,7 +4,6 @@ import com.thedailycircular.tdc.model.Circular;
 import com.thedailycircular.tdc.service.CircularServices;
 import com.thedailycircular.tdc.validation.CircularValidator;
 import com.thedailycircular.tdc.validation.ValidationErrorMappingServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +19,21 @@ import java.util.Optional;
 @RequestMapping(path = "api/circular")
 public class CircularController {
 
-    @Autowired
-    private CircularServices circularServices;
+    private final CircularServices circularServices;
 
-    @Autowired
-    private CircularValidator circularValidator;
+    private final CircularValidator circularValidator;
 
-    @Autowired
-    private ValidationErrorMappingServices validationErrorMappingServices;
+    private final ValidationErrorMappingServices validationErrorMappingServices;
+
+    public CircularController(
+            CircularServices circularServices,
+            CircularValidator circularValidator,
+            ValidationErrorMappingServices validationErrorMappingServices) {
+
+        this.circularServices = circularServices;
+        this.circularValidator = circularValidator;
+        this.validationErrorMappingServices = validationErrorMappingServices;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> saveOrUpdate(@Valid @RequestBody Circular circular, BindingResult result) {

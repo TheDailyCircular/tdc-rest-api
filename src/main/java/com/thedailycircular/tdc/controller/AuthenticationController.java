@@ -3,9 +3,7 @@ package com.thedailycircular.tdc.controller;
 import com.thedailycircular.tdc.payload.AuthenticationRequest;
 import com.thedailycircular.tdc.payload.AuthenticationResponse;
 import com.thedailycircular.tdc.security.JWTUtility;
-import com.thedailycircular.tdc.service.ApplicationUserServices;
 import com.thedailycircular.tdc.validation.ValidationErrorMappingServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,23 +21,27 @@ import static com.thedailycircular.tdc.security.SecurityConstants.JWT_TOKEN_PREF
 @RequestMapping(path = "api/auth")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private ApplicationUserServices applicationUserServices;
+    private final JWTUtility jwtUtility;
 
-    @Autowired
-    private JWTUtility jwtUtility;
+    private final ValidationErrorMappingServices validationErrorMappingServices;
 
-    @Autowired
-    private ValidationErrorMappingServices validationErrorMappingServices;
+    public AuthenticationController(
+            AuthenticationManager authenticationManager,
+            JWTUtility jwtUtility,
+            ValidationErrorMappingServices validationErrorMappingServices) {
+
+        this.authenticationManager = authenticationManager;
+        this.jwtUtility = jwtUtility;
+        this.validationErrorMappingServices = validationErrorMappingServices;
+    }
 
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(
             @Valid @RequestBody AuthenticationRequest authenticationRequest,
-            BindingResult result) throws Exception {
+            BindingResult result) {
 
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) {
