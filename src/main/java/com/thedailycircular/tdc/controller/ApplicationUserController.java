@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @CrossOrigin
 @RestController
 @RequestMapping(path = "api/user")
-public class UserController {
+public class ApplicationUserController {
 
     private final ApplicationUserServices applicationUserServices;
 
@@ -30,10 +30,10 @@ public class UserController {
     private final ValidationErrorMappingServices validationErrorMappingServices;
 
     @Autowired
-    public UserController(ApplicationUserServices applicationUserServices,
-                          RegistrationRequestValidator registrationRequestValidator,
-                          ApplicationEventPublisher applicationEventPublisher,
-                          ValidationErrorMappingServices validationErrorMappingServices) {
+    public ApplicationUserController(ApplicationUserServices applicationUserServices,
+                                     RegistrationRequestValidator registrationRequestValidator,
+                                     ApplicationEventPublisher applicationEventPublisher,
+                                     ValidationErrorMappingServices validationErrorMappingServices) {
 
         this.applicationUserServices = applicationUserServices;
         this.registrationRequestValidator = registrationRequestValidator;
