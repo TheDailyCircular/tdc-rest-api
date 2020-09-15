@@ -1,0 +1,7 @@
+runtime: java11
+
+env_variables:
+  CLOUD_SQL_CONNECTION_NAME: "daily-circular-2020:asia-south1:daily-circular-sql-instance"
+  DB_NAME: "DailyCircular"
+  DB_USER: "root"
+  DB_PASS: "dcSQLin2"

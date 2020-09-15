@@ -102,6 +102,15 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>2.3.0</version>
+                <configuration>
+                    <projectId>daily-circular-2020</projectId>
+                    <version>beta</version>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
