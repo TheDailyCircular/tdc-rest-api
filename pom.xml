@@ -101,7 +101,7 @@
                 <version>2.3.0</version>
                 <configuration>
                     <projectId>daily-circular-2020</projectId>
-                    <version>gamma</version>
+                    <version>version-0</version>
                 </configuration>
             </plugin>
         </plugins>
