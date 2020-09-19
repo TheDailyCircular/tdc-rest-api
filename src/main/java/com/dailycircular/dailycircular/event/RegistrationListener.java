@@ -1,8 +1,10 @@
 package com.dailycircular.dailycircular.event;
 
 import com.dailycircular.dailycircular.model.ApplicationUser;
+import com.dailycircular.dailycircular.security.CustomUserDetailServices;
 import com.dailycircular.dailycircular.service.ApplicationUserServices;
 import com.dailycircular.dailycircular.service.MailServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
@@ -18,17 +20,18 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     private final MessageSource messageSource;
 
-    private final ApplicationUserServices applicationUserServices;
-
     private final MailServices mailServices;
 
-    public RegistrationListener(MessageSource messageSource,
-                                ApplicationUserServices applicationUserServices,
-                                MailServices mailServices) {
+    private final ApplicationUserServices applicationUserServices;
+
+    public RegistrationListener(
+            MessageSource messageSource,
+            MailServices mailServices,
+            ApplicationUserServices applicationUserServices) {
 
         this.messageSource = messageSource;
-        this.applicationUserServices = applicationUserServices;
         this.mailServices = mailServices;
+        this.applicationUserServices = applicationUserServices;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
         final SimpleMailMessage email = constructEmailMessage(event, applicationUser, token);
 
-//        mailServices.sendMail(email);
+        mailServices.sendMail(email);
     }
 
     private SimpleMailMessage constructEmailMessage(

@@ -1,6 +1,5 @@
 package com.dailycircular.dailycircular.security;
 
-import com.dailycircular.dailycircular.service.ApplicationUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,11 +17,17 @@ import java.io.IOException;
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JWTUtility jwtUtility;
+    private final JWTUtility jwtUtility;
 
-    @Autowired
-    private ApplicationUserServices applicationUserServices;
+    private final CustomUserDetailServices customUserDetailServices;
+
+    public JWTRequestFilter(
+            JWTUtility jwtUtility,
+            CustomUserDetailServices customUserDetailServices) {
+
+        this.jwtUtility = jwtUtility;
+        this.customUserDetailServices = customUserDetailServices;
+    }
 
     @Override
     protected void doFilterInternal(
@@ -40,7 +45,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.applicationUserServices.loadUserByUsername(username);
+            UserDetails userDetails = this.customUserDetailServices.loadUserByUsername(username);
             if (jwtUtility.validateTokenByUserDetails(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken
                         usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(

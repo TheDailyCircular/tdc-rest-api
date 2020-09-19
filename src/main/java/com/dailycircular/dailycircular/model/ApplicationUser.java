@@ -38,6 +38,8 @@ public class ApplicationUser implements UserDetails, Serializable {
 
     private Boolean accountNonExpired = true;
 
+    private Boolean isEnabled = false;
+
     @JsonIgnore
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Circular> circulars = new ArrayList<>();
@@ -89,6 +91,6 @@ public class ApplicationUser implements UserDetails, Serializable {
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

@@ -6,9 +6,6 @@ import com.dailycircular.dailycircular.model.Circular;
 import com.dailycircular.dailycircular.model.EmailVerificationToken;
 import com.dailycircular.dailycircular.repository.ApplicationUserRepository;
 import com.dailycircular.dailycircular.repository.EmailVerificationTokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,25 +15,22 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ApplicationUserServices implements UserDetailsService {
+public class ApplicationUserServices {
 
-    @Autowired
-    private ApplicationUserRepository applicationUserRepository;
+    private final ApplicationUserRepository applicationUserRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private EmailVerificationTokenRepository emailVerificationTokenRepository;
+    private final EmailVerificationTokenRepository emailVerificationTokenRepository;
 
+    public ApplicationUserServices(
+            ApplicationUserRepository applicationUserRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            EmailVerificationTokenRepository emailVerificationTokenRepository) {
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
-        if (applicationUser == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return applicationUser;
+        this.applicationUserRepository = applicationUserRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailVerificationTokenRepository = emailVerificationTokenRepository;
     }
 
     public ApplicationUser registerNewUser(ApplicationUser newApplicationUser) {
@@ -48,6 +42,13 @@ public class ApplicationUserServices implements UserDetailsService {
         }
     }
 
+    public void createEmailVerificationToken(ApplicationUser applicationUser, String token) {
+        EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
+        emailVerificationToken.setApplicationUser(applicationUser);
+        emailVerificationToken.setToken(token);
+        emailVerificationTokenRepository.save(emailVerificationToken);
+    }
+
     public List<Circular> getCirculars(String username) {
         ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
         if (applicationUser == null) {
@@ -56,10 +57,4 @@ public class ApplicationUserServices implements UserDetailsService {
         return applicationUser.getCirculars();
     }
 
-    public void createEmailVerificationToken(ApplicationUser applicationUser, String token) {
-        EmailVerificationToken emailVerificationToken = new EmailVerificationToken();
-        emailVerificationToken.setApplicationUser(applicationUser);
-        emailVerificationToken.setToken(token);
-        emailVerificationTokenRepository.save(emailVerificationToken);
-    }
 }

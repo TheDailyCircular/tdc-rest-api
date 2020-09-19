@@ -1,7 +1,5 @@
 package com.dailycircular.dailycircular.security;
 
-import com.dailycircular.dailycircular.service.ApplicationUserServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,14 +24,21 @@ import static com.dailycircular.dailycircular.security.SecurityConstants.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private ApplicationUserServices applicationUserServices;
+    private final CustomUserDetailServices customUserDetailServices;
 
-    @Autowired
-    private JWTRequestFilter jwtRequestFilter;
+    private final JWTRequestFilter jwtRequestFilter;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    public SecurityConfig(
+            CustomUserDetailServices customUserDetailServices,
+            JWTRequestFilter jwtRequestFilter,
+            JwtAuthenticationEntryPoint unauthorizedHandler) {
+
+        this.customUserDetailServices = customUserDetailServices;
+        this.jwtRequestFilter = jwtRequestFilter;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -48,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(applicationUserServices);
+        auth.userDetailsService(customUserDetailServices);
     }
 
     @Override

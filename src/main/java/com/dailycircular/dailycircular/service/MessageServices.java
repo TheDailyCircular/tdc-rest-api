@@ -3,6 +3,7 @@ package com.dailycircular.dailycircular.service;
 import com.dailycircular.dailycircular.exception.EntityIdNotFoundException;
 import com.dailycircular.dailycircular.model.Message;
 import com.dailycircular.dailycircular.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,11 +13,8 @@ import java.util.List;
 @Transactional
 public class MessageServices {
 
-    private final MessageRepository messageRepository;
-
-    public MessageServices(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
+    @Autowired
+    private MessageRepository messageRepository;
 
     public Message saveOrUpdate(Message message) {
         return messageRepository.save(message);

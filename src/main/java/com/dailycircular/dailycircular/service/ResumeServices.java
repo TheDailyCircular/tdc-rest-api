@@ -3,6 +3,7 @@ package com.dailycircular.dailycircular.service;
 import com.dailycircular.dailycircular.exception.EntityIdNotFoundException;
 import com.dailycircular.dailycircular.model.Resume;
 import com.dailycircular.dailycircular.repository.ResumeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,11 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ResumeServices {
 
-    private final ResumeRepository resumeRepository;
+    @Autowired
+    private ResumeRepository resumeRepository;
 
-    public ResumeServices(ResumeRepository resumeRepository) {
-        this.resumeRepository = resumeRepository;
-    }
 
     public Resume get(Long id) {
         if (!resumeRepository.existsById(id)) {
