@@ -1,4 +1,4 @@
-package com.dailycircular.dailycircular.controller;
+package com.dailycircular.dailycircular.api;
 
 import com.dailycircular.dailycircular.service.ApplicationUserServices;
 import org.springframework.http.HttpStatus;

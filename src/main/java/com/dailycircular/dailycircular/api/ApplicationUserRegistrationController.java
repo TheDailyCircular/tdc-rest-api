@@ -1,6 +1,5 @@
-package com.dailycircular.dailycircular.controller;
+package com.dailycircular.dailycircular.api;
 
-import com.dailycircular.dailycircular.event.OnRegistrationCompleteEvent;
 import com.dailycircular.dailycircular.model.ApplicationUser;
 import com.dailycircular.dailycircular.payload.RegistrationRequest;
 import com.dailycircular.dailycircular.service.ApplicationUserServices;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @CrossOrigin
@@ -22,20 +20,16 @@ public class ApplicationUserRegistrationController {
 
     private final RegistrationRequestValidator registrationRequestValidator;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
-
     private final ValidationErrorMappingServices validationErrorMappingServices;
 
     private final ApplicationUserServices applicationUserServices;
 
     public ApplicationUserRegistrationController(
             RegistrationRequestValidator registrationRequestValidator,
-            ApplicationEventPublisher applicationEventPublisher,
             ValidationErrorMappingServices validationErrorMappingServices,
             ApplicationUserServices applicationUserServices) {
 
         this.registrationRequestValidator = registrationRequestValidator;
-        this.applicationEventPublisher = applicationEventPublisher;
         this.validationErrorMappingServices = validationErrorMappingServices;
         this.applicationUserServices = applicationUserServices;
     }
@@ -43,7 +37,7 @@ public class ApplicationUserRegistrationController {
 
     @PostMapping("/manual")
     public ResponseEntity<?> registerNewUser(
-            @Valid @RequestBody RegistrationRequest registrationRequest, BindingResult result, HttpServletRequest request) {
+            @Valid @RequestBody RegistrationRequest registrationRequest, BindingResult result) {
 
         registrationRequestValidator.validate(registrationRequest, result);
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
@@ -51,12 +45,9 @@ public class ApplicationUserRegistrationController {
 
         ApplicationUser registeredApplicationUser =
                 applicationUserServices.registerNewUser(registrationRequest.createApplicationUser());
-        String appUrl = request.getContextPath();
-        applicationEventPublisher.publishEvent(
-                new OnRegistrationCompleteEvent(
-                        registeredApplicationUser, request.getLocale(), appUrl
-                )
-        );
+
+
+
         return new ResponseEntity<>(registeredApplicationUser, HttpStatus.CREATED);
     }
 

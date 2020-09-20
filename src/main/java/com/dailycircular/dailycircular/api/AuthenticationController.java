@@ -1,4 +1,4 @@
-package com.dailycircular.dailycircular.controller;
+package com.dailycircular.dailycircular.api;
 
 import com.dailycircular.dailycircular.payload.AuthenticationRequest;
 import com.dailycircular.dailycircular.payload.AuthenticationResponse;
