@@ -17,7 +17,7 @@ import org.springframework.security.web.savedrequest.SimpleSavedRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.dailycircular.dailycircular.security.SecurityConstants.*;
+import static com.dailycircular.dailycircular.constants.SecurityConstants.*;
 
 
 @Configuration

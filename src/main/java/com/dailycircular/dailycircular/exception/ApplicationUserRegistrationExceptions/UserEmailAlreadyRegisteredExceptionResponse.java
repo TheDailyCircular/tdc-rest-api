@@ -1,4 +1,4 @@
-package com.dailycircular.dailycircular.exception;
+package com.dailycircular.dailycircular.exception.ApplicationUserRegistrationExceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

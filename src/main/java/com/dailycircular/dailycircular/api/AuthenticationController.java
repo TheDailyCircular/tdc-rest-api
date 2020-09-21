@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.dailycircular.dailycircular.security.SecurityConstants.JWT_TOKEN_PREFIX;
+import static com.dailycircular.dailycircular.constants.SecurityConstants.JWT_TOKEN_PREFIX;
 
 
 @CrossOrigin

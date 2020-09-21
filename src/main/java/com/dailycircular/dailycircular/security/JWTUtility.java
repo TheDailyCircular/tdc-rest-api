@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import static com.dailycircular.dailycircular.security.SecurityConstants.SECRET_KEY;
-import static com.dailycircular.dailycircular.security.SecurityConstants.TOKEN_DURATION;
+import static com.dailycircular.dailycircular.constants.SecurityConstants.SECRET_KEY;
+import static com.dailycircular.dailycircular.constants.SecurityConstants.TOKEN_DURATION;
 
 
 @Service

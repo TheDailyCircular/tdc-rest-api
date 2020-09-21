@@ -1,11 +1,13 @@
 package com.dailycircular.dailycircular.api;
 
+import com.dailycircular.dailycircular.mail.MailServices;
 import com.dailycircular.dailycircular.model.ApplicationUser;
+import com.dailycircular.dailycircular.model.EmailVerificationToken;
+import com.dailycircular.dailycircular.payload.EmailVerificationRequest;
 import com.dailycircular.dailycircular.payload.RegistrationRequest;
-import com.dailycircular.dailycircular.service.ApplicationUserServices;
+import com.dailycircular.dailycircular.service.ApplicationUserRegistrationServices;
 import com.dailycircular.dailycircular.validation.RegistrationRequestValidator;
 import com.dailycircular.dailycircular.validation.ValidationErrorMappingServices;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,16 +24,20 @@ public class ApplicationUserRegistrationController {
 
     private final ValidationErrorMappingServices validationErrorMappingServices;
 
-    private final ApplicationUserServices applicationUserServices;
+    private final ApplicationUserRegistrationServices applicationUserRegistrationServices;
+
+    private final MailServices mailServices;
 
     public ApplicationUserRegistrationController(
             RegistrationRequestValidator registrationRequestValidator,
             ValidationErrorMappingServices validationErrorMappingServices,
-            ApplicationUserServices applicationUserServices) {
+            ApplicationUserRegistrationServices applicationUserRegistrationServices,
+            MailServices mailServices) {
 
         this.registrationRequestValidator = registrationRequestValidator;
         this.validationErrorMappingServices = validationErrorMappingServices;
-        this.applicationUserServices = applicationUserServices;
+        this.applicationUserRegistrationServices = applicationUserRegistrationServices;
+        this.mailServices = mailServices;
     }
 
 
@@ -43,13 +49,21 @@ public class ApplicationUserRegistrationController {
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) return errorMap;
 
-        ApplicationUser registeredApplicationUser =
-                applicationUserServices.registerNewUser(registrationRequest.createApplicationUser());
+        ApplicationUser registeredApplicationUser = applicationUserRegistrationServices.registerNewUser(registrationRequest.createApplicationUser());
+        EmailVerificationToken emailVerificationToken = applicationUserRegistrationServices.createEmailVerificationToken(registeredApplicationUser);
 
-
+        mailServices.sendEmailVerificationTokenMail(registeredApplicationUser, emailVerificationToken);
 
         return new ResponseEntity<>(registeredApplicationUser, HttpStatus.CREATED);
     }
 
+    @PostMapping("/confirm_registration")
+    public ResponseEntity<?> verifyEmail(
+            @Valid @RequestBody EmailVerificationRequest emailVerificationRequest, BindingResult result) {
 
+        ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
+        if (errorMap != null) return errorMap;
+
+        return new ResponseEntity<>(applicationUserRegistrationServices.verifyEmail(emailVerificationRequest), HttpStatus.ACCEPTED);
+    }
 }

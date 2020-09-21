@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import static com.dailycircular.dailycircular.security.SecurityConstants.PASSWORD_MAXIMUM_LENGTH;
-import static com.dailycircular.dailycircular.security.SecurityConstants.PASSWORD_MINIMUM_LENGTH;
+import static com.dailycircular.dailycircular.constants.SecurityConstants.PASSWORD_MAXIMUM_LENGTH;
+import static com.dailycircular.dailycircular.constants.SecurityConstants.PASSWORD_MINIMUM_LENGTH;
 
 
 @Component
