@@ -31,7 +31,6 @@ public class Resume implements Serializable {
     @NotBlank(message = "lastName can not be empty")
     private String lastName;
 
-    @NotBlank(message = "address can not be empty")
     @Size(max = 100)
     private String address;
 

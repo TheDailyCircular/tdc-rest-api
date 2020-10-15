@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -34,7 +35,7 @@ public class ApplicationUser implements UserDetails, Serializable {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Resume resume;
+    private @Valid Resume resume;
 
     private Boolean accountNonExpired = true;
 

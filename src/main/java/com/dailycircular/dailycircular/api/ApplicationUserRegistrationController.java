@@ -49,8 +49,10 @@ public class ApplicationUserRegistrationController {
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) return errorMap;
 
-        ApplicationUser registeredApplicationUser = applicationUserRegistrationServices.registerNewUser(registrationRequest.createApplicationUser());
-        EmailVerificationToken emailVerificationToken = applicationUserRegistrationServices.createEmailVerificationToken(registeredApplicationUser);
+        ApplicationUser registeredApplicationUser =
+                applicationUserRegistrationServices.registerNewUser(registrationRequest.createApplicationUser());
+        EmailVerificationToken emailVerificationToken =
+                applicationUserRegistrationServices.createEmailVerificationToken(registeredApplicationUser);
 
         mailServices.sendEmailVerificationTokenMail(registeredApplicationUser, emailVerificationToken);
 

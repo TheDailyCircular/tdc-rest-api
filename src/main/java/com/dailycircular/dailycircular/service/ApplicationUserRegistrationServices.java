@@ -42,7 +42,7 @@ public class ApplicationUserRegistrationServices {
             newApplicationUser.setPassword(bCryptPasswordEncoder.encode(newApplicationUser.getPassword()));
             return applicationUserRepository.save(newApplicationUser);
         } catch (Exception ex) {
-            throw new UserEmailAlreadyRegisteredException(newApplicationUser.getUsername() + " already registered");
+            throw ex; //new UserEmailAlreadyRegisteredException(newApplicationUser.getUsername() + " already registered");
         }
     }
 
