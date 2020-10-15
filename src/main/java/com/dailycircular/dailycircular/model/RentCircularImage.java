@@ -6,32 +6,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
 
-
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class EmailVerificationToken implements Serializable {
-
+public class RentCircularImage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
+    @Column(unique = true)
+    @NotBlank(message = "image url can not be empty")
+    private String imageURL;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private ApplicationUser applicationUser;
-
-    private Date createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = new Date();
-    }
-
+    /**
+     * rent circular
+     */
 }

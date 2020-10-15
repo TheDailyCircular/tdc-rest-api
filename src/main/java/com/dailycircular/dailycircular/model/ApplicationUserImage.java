@@ -6,32 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
 
-
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class EmailVerificationToken implements Serializable {
-
+public class ApplicationUserImage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
-
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private ApplicationUser applicationUser;
-
-    private Date createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = new Date();
-    }
-
+    @NotBlank(message = "image url can not be empty")
+    @Column(unique = true)
+    private String imageURL;
 }

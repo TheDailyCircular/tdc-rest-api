@@ -22,9 +22,10 @@ public class WorkExperience implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "companyName can not be empty")
-    @Column(length = 500)
-    private String companyName;
+    /**
+     * version 2.0
+     */
+    private Company company;
 
     @NotBlank(message = "role can not be empty")
     private String role;

@@ -36,6 +36,12 @@ public class Organization implements Serializable {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Circular> circulars = new ArrayList<>();
 
+    /**
+     * veresion 2.0 addition
+     */
+    private Company company;
+    private OrganizationRating organizationRating;
+
     private Date createdAt;
 
     private Date updatedAt;
