@@ -26,7 +26,7 @@ public class Circular implements Serializable {
     @NotBlank(message = "Circular Text can not be empty")
     @Column(columnDefinition = "TEXT")
     private String description;
-
+    
     private Date expirationDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
