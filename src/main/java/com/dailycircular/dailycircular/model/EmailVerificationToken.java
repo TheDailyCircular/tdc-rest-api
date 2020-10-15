@@ -23,8 +23,7 @@ public class EmailVerificationToken implements Serializable {
 
     private String token;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
     private ApplicationUser applicationUser;
 
     private Date createdAt;

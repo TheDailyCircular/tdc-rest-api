@@ -27,20 +27,19 @@ public class Organization implements Serializable {
     @NotBlank(message = "name can not be empty")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
-    private ApplicationUser applicationUser;
-
     @JsonIgnore
     @OneToMany(mappedBy = "organization", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Circular> circulars = new ArrayList<>();
 
-    /**
-     * veresion 2.0 addition
-     */
+    @OneToOne(cascade = CascadeType.ALL)
     private Company company;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private OrganizationRating organizationRating;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<ApplicationUserAndOrganizationRelation> applicationUserAndOrganizationRelations = new ArrayList<>();
 
     private Date createdAt;
 

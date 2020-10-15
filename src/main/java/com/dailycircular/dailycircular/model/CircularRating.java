@@ -24,9 +24,4 @@ public class CircularRating implements Serializable {
     private Long likes;
 
     private Long dislikes;
-
-    /**
-     * foreign key
-     */
-    private Circular circular;
 }

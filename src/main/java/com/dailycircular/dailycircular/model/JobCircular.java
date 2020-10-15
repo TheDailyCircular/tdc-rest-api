@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Getter
@@ -19,6 +17,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JobCircular extends Circular {
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private JobCircularRole jobCircularRole;

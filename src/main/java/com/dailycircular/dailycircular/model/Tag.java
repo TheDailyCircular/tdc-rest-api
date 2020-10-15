@@ -1,6 +1,6 @@
 package com.dailycircular.dailycircular.model;
 
-import com.sun.istack.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +25,8 @@ public class Tag implements Serializable {
     @Column(nullable = false)
     @Size(max = 50)
     private String tagName;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags")
+    private List<Circular> circulars = new ArrayList<>();
 }

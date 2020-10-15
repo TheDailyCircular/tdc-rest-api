@@ -40,17 +40,19 @@ public class ApplicationUser implements UserDetails, Serializable {
 
     private Boolean isEnabled = false;
 
-    /*
-     * version 2.0 addition
-     */
-    private ApplicationUserImage userImage;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ApplicationUserImage applicationUserImage;
 
     @JsonIgnore
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Circular> circulars = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "applicationUsers")
+    private List<CircularCategory> circularCategories = new ArrayList<>();
+
+    @JsonIgnore
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Organization> organizations = new ArrayList<>();
+    private List<ApplicationUserAndCircularAction> applicationUserAndCircularActions = new ArrayList<>();
 
     private Date createdAt;
 

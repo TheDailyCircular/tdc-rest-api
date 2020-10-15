@@ -29,6 +29,6 @@ public class JobCircularEmploymentType implements Serializable {
     private String employmentType;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "jobCircularRole", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "jobCircularEmploymentType", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<JobCircular> jobCirculars = new ArrayList<>();
 }

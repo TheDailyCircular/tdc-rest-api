@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -30,15 +27,16 @@ public class EducationalQualification implements Serializable {
     @Size(max = 500)
     private String description;
 
-
-
-    /**
-     * version 2.0 addition
-     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Degree degree;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Institute institute;
+
     private boolean isPresent;
+
     private Date startDate;
+
     private Date endDate;
 
     @JsonIgnore

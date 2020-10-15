@@ -1,5 +1,6 @@
 package com.dailycircular.dailycircular.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class RentCircularImage implements Serializable {
     @NotBlank(message = "image url can not be empty")
     private String imageURL;
 
-    /**
-     * rent circular
-     */
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private RentCircular rentCircular;
 }

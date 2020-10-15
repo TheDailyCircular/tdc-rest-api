@@ -1,16 +1,16 @@
 package com.dailycircular.dailycircular.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,4 +24,8 @@ public class CompanyType implements Serializable {
 
     @Size(min = 3, max = 50)
     private String companyTypeName;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "companyType", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Company> companies = new ArrayList<>();
 }

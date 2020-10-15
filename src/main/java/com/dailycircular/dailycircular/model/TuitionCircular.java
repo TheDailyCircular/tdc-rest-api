@@ -21,7 +21,7 @@ public class TuitionCircular extends Circular {
 
     private Integer studentClass;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tuitionCirculars")
     private List<TuitionCircularSubject> tuitionCircularSubjects = new ArrayList<>();
 
     @NotBlank(message = "Address can not be empty")

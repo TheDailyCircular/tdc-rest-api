@@ -22,9 +22,7 @@ public class WorkExperience implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * version 2.0
-     */
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Company company;
 
     @NotBlank(message = "role can not be empty")
@@ -34,7 +32,7 @@ public class WorkExperience implements Serializable {
 
     private Date resigningDate;
 
-    private Boolean currentlyWorking;
+    private Boolean isCurrentlyWorking;
 
     @Column(columnDefinition = "TEXT")
     private String description;

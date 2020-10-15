@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -16,20 +13,20 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCircularActions implements Serializable {
+public class ApplicationUserAndCircularAction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private ApplicationUser applicationUser;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Circular circular;
 
     private boolean isLiked = false;
 
     private boolean isSaved = false;
 
     private boolean isApplied = false;
-
-    /**
-     * version 2.0 addition
-     */
-    private ApplicationUser applicationUser;
-    private Circular circular;
 }
