@@ -10,6 +10,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -17,19 +20,26 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EducationalQualification {
+public class EducationalQualification implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "degree can not be empty")
-    private String degree;
-
-    @NotBlank(message = "institute can not be empty")
-    private String institute;
-
+    @NotNull
+    @Size(max = 500)
     private String description;
+
+
+
+    /**
+     * version 2.0 addition
+     */
+    private Degree degree;
+    private Institute institute;
+    private boolean isPresent;
+    private Date startDate;
+    private Date endDate;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

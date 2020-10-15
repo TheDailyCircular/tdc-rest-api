@@ -6,32 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
 
-
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class EmailVerificationToken implements Serializable {
-
+public class CircularCategory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String token;
-
-    @OneToOne
-    @JoinColumn(nullable = false)
-    private ApplicationUser applicationUser;
-
-    private Date createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = new Date();
-    }
-
+    @Column(unique = true)
+    @Size(min = 3, max = 20)
+    private String categoryName;
 }

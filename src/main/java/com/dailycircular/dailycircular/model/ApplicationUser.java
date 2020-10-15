@@ -40,6 +40,11 @@ public class ApplicationUser implements UserDetails, Serializable {
 
     private Boolean isEnabled = false;
 
+    /*
+     * version 2.0 addition
+     */
+    private ApplicationUserImage userImage;
+
     @JsonIgnore
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Circular> circulars = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.dailycircular.dailycircular.model;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +31,13 @@ public class Resume implements Serializable {
 
     @NotBlank(message = "lastName can not be empty")
     private String lastName;
+
+    @NotNull
+    @Size(max = 100)
+    private String address;
+
+    @OneToMany
+    private List<UserWebsite> userWebsites = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<@Valid EducationalQualification> educationalQualifications = new ArrayList<>();
