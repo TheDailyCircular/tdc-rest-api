@@ -38,7 +38,14 @@ public class ApplicationUserController {
 
         if (errorMap != null) return errorMap;
 
-        return new ResponseEntity<>(applicationUserServices.updateCircularCategoryAndTagChoice(categoryTagChoiceUpdateRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                applicationUserServices.updateCircularCategoryAndTagChoice(categoryTagChoiceUpdateRequest),
+                HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserByUserId(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(applicationUserServices.getUserByUserId(id), HttpStatus.OK);
     }
 
     @GetMapping("/circulars/{username}")
