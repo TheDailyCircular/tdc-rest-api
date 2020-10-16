@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserCircularActionsRepository extends JpaRepository<ApplicationUserAndCircularAction, Long> {
+public interface ApplicationUserCircularActionsRepository extends JpaRepository<ApplicationUserAndCircularAction, Long> {
 }
