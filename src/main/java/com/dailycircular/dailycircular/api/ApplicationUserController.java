@@ -19,7 +19,9 @@ public class ApplicationUserController {
 
     private final ValidationErrorMappingServices validationErrorMappingServices;
 
-    public ApplicationUserController(ApplicationUserServices applicationUserServices, ValidationErrorMappingServices validationErrorMappingServices) {
+    public ApplicationUserController(
+            ApplicationUserServices applicationUserServices,
+            ValidationErrorMappingServices validationErrorMappingServices) {
         this.applicationUserServices = applicationUserServices;
         this.validationErrorMappingServices = validationErrorMappingServices;
     }
@@ -31,7 +33,12 @@ public class ApplicationUserController {
         ResponseEntity<?> errorMap = validationErrorMappingServices.mapValidationErrors(result);
         if (errorMap != null) return errorMap;
 
-        return new ResponseEntity<>(categoryTagChoiceUpdateRequest, HttpStatus.CREATED);
+        errorMap = validationErrorMappingServices.
+                mapCategoryTagChoiceUpdateRequestValidationErrors(categoryTagChoiceUpdateRequest);
+
+        if (errorMap != null) return errorMap;
+
+        return new ResponseEntity<>(applicationUserServices.updateCircularCategoryAndTagChoice(categoryTagChoiceUpdateRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/circulars/{username}")

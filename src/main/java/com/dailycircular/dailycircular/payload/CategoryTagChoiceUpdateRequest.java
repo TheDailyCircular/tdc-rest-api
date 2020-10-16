@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,7 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryTagChoiceUpdateRequest {
 
-    private List<@Valid CircularCategory> circularCategories = new ArrayList<>();
+    @NotNull
+    private Long applicationUserId;
 
-    private List<@Valid Tag> tags = new ArrayList<>();
+    @NotNull
+    @Size(min = 2, message = "choose at least 2 categories")
+    private Set<@Valid CircularCategory> circularCategories;
+
+    @NotNull
+    @Size(min = 2, message = "choose at least 2 tags")
+    private Set<@Valid Tag> tags;
 }

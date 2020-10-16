@@ -48,8 +48,11 @@ public class ApplicationUser implements UserDetails, Serializable {
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Circular> circulars = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "applicationUsers")
+    @ManyToMany
     private List<CircularCategory> circularCategories = new ArrayList<>();
+
+    @ManyToMany
+    private List<Tag> tags = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "applicationUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

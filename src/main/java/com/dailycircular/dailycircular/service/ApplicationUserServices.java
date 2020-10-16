@@ -2,11 +2,16 @@ package com.dailycircular.dailycircular.service;
 
 import com.dailycircular.dailycircular.model.ApplicationUser;
 import com.dailycircular.dailycircular.model.Circular;
+import com.dailycircular.dailycircular.model.CircularCategory;
+import com.dailycircular.dailycircular.model.Tag;
+import com.dailycircular.dailycircular.payload.CategoryTagChoiceUpdateRequest;
 import com.dailycircular.dailycircular.repository.ApplicationUserRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -27,5 +32,28 @@ public class ApplicationUserServices {
         return applicationUser.getCirculars();
     }
 
+    /**
+     * applicationUserId  must be valid
+     * circularCategories must be valid
+     * tags               must be valid
+     */
+    public CategoryTagChoiceUpdateRequest updateCircularCategoryAndTagChoice(
+            CategoryTagChoiceUpdateRequest categoryTagChoiceUpdateRequest) {
 
+        ApplicationUser applicationUser =
+                applicationUserRepository.getOne(categoryTagChoiceUpdateRequest.getApplicationUserId());
+
+        List<CircularCategory> circularCategories = new ArrayList<>(categoryTagChoiceUpdateRequest.getCircularCategories());
+        List<Tag> tags = new ArrayList<>(categoryTagChoiceUpdateRequest.getTags());
+
+        applicationUser.setCircularCategories(circularCategories);
+        applicationUser.setTags(tags);
+
+        ApplicationUser applicationUserUpdated = applicationUserRepository.save(applicationUser);
+
+        return new CategoryTagChoiceUpdateRequest(
+                applicationUserUpdated.getId(),
+                new HashSet<>(applicationUserUpdated.getCircularCategories()),
+                new HashSet<>(applicationUserUpdated.getTags()));
+    }
 }
