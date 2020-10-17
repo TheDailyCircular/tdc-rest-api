@@ -4,6 +4,8 @@ import com.dailycircular.dailycircular.exception.EntityIdNotFoundException;
 import com.dailycircular.dailycircular.model.Organization;
 import com.dailycircular.dailycircular.repository.OrganizationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,11 +22,11 @@ public class OrganizationServices {
         return organizationRepository.save(organization);
     }
 
-    public List<Organization> getAll() {
-        return organizationRepository.findAll();
+    public Page<Organization> getAll(Integer page, Integer size) {
+        return organizationRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Organization get(Long id) {
+    public Organization getById(Long id) {
         if (!organizationRepository.existsById(id)) {
             throw new EntityIdNotFoundException("Organization with ID: " + id + " doesn't exist");
         }
