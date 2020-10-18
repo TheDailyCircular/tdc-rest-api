@@ -3,7 +3,6 @@ package com.dailycircular.dailycircular.service;
 import com.dailycircular.dailycircular.exception.EntityIdNotFoundException;
 import com.dailycircular.dailycircular.model.Circular;
 import com.dailycircular.dailycircular.repository.CircularRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,8 +16,11 @@ import java.util.Date;
 @Transactional
 public class CircularServices {
 
-    @Autowired
-    private CircularRepository circularRepository;
+    private final CircularRepository circularRepository;
+
+    public CircularServices(CircularRepository circularRepository) {
+        this.circularRepository = circularRepository;
+    }
 
     public Circular saveOrUpdate(Circular circular) {
         return circularRepository.save(circular);

@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,20 +23,22 @@ public class Circular implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Circular Title can not be empty")
+    @NotBlank
     @Column(length = 600)
     private String title;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private CircularCategory circularCategory;
+    private @Valid CircularCategory circularCategory;
 
     @ManyToMany
     private List<Tag> tags = new ArrayList<>();
 
-    @NotBlank(message = "Circular Text can not be empty")
+    @NotBlank
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
     private Date expirationDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -45,7 +48,19 @@ public class Circular implements Serializable {
     private Organization organization;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private CircularRating circularRating;
+    private CircularRating circularRating = new CircularRating();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private @Valid AdmissionCircular admissionCircular;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private @Valid JobCircular jobCircular;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private @Valid RentCircular rentCircular;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private @Valid TuitionCircular tuitionCircular;
 
     @JsonIgnore
     @OneToMany(mappedBy = "circular", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

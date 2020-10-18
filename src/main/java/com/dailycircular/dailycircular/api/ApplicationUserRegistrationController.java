@@ -54,7 +54,7 @@ public class ApplicationUserRegistrationController {
         EmailVerificationToken emailVerificationToken =
                 applicationUserRegistrationServices.createEmailVerificationToken(registeredApplicationUser);
 
-        mailServices.sendEmailVerificationTokenMail(registeredApplicationUser, emailVerificationToken);
+//        mailServices.sendEmailVerificationTokenMail(registeredApplicationUser, emailVerificationToken);
 
         return new ResponseEntity<>(registeredApplicationUser, HttpStatus.CREATED);
     }

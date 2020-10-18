@@ -21,7 +21,7 @@ public class CircularRating implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long likes;
+    private Long likes = 0L;
 
-    private Long dislikes;
+    private Long dislikes = 0L;
 }

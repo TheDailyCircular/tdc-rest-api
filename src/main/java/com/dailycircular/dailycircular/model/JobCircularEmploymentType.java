@@ -24,7 +24,7 @@ public class JobCircularEmploymentType implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Employment Type can not be empty")
+    @NotBlank
     @Size(max = 30)
     private String employmentType;
 

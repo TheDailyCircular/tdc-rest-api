@@ -22,7 +22,7 @@ public class JobCircularRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Job Role can not be empty")
+    @NotBlank
     @Size(max = 30)
     private String jobRoleName;
 
