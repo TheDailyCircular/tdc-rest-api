@@ -28,6 +28,10 @@ public class CircularServices {
         return circularRepository.findAll(date, PageRequest.of(page, size, Sort.Direction.DESC, "createdAt"));
     }
 
+    public boolean existsById(Long id) {
+        return circularRepository.existsById(id);
+    }
+
     public Circular get(Long id) {
         if (!circularRepository.existsById(id)) {
             throw new EntityIdNotFoundException("Circular with ID: " + id + " doesn't exist");

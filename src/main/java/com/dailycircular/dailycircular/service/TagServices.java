@@ -24,6 +24,10 @@ public class TagServices {
         return tagRepository.findAll(PageRequest.of(page, size));
     }
 
+    public boolean existsById(Long id) {
+        return tagRepository.existsById(id);
+    }
+
     public Tag getById(Long id) {
         if (!tagRepository.existsById(id)) {
             throw new EntityIdNotFoundException("Tag with ID: " + id + " doesn't exist");

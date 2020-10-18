@@ -22,6 +22,10 @@ public class CircularCategoryServices {
         return circularCategoryRepository.save(circularCategory);
     }
 
+    public boolean existsById(Long id) {
+        return circularCategoryRepository.existsById(id);
+    }
+
     public CircularCategory getById(Long id) {
         if (!circularCategoryRepository.existsById(id)) {
             throw new EntityIdNotFoundException("Circular category with id " + id + " does not exists");

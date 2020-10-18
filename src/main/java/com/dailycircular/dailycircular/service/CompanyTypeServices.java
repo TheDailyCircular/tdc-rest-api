@@ -19,4 +19,8 @@ public class CompanyTypeServices {
     public Page<CompanyType> getAll(Integer page, Integer size) {
         return companyTypeRepository.findAll(PageRequest.of(page, size));
     }
+
+    public boolean existsById(Long id) {
+        return companyTypeRepository.existsById(id);
+    }
 }

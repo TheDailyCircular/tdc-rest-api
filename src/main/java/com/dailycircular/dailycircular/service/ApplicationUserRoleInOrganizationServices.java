@@ -6,10 +6,8 @@ import com.dailycircular.dailycircular.repository.ApplicationUserRoleInOrganizat
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service
@@ -24,6 +22,10 @@ public class ApplicationUserRoleInOrganizationServices {
 
     public Page<ApplicationUserRoleInOrganization> getAll(Integer page, Integer size) {
         return applicationUserRoleInOrganizationRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public boolean existsById(Long id) {
+        return applicationUserRoleInOrganizationRepository.existsById(id);
     }
 
     public ApplicationUserRoleInOrganization getById(Long id) {

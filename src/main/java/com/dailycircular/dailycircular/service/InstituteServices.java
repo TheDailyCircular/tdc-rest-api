@@ -26,6 +26,10 @@ public class InstituteServices {
         return instituteRepository.findAll(PageRequest.of(page, size));
     }
 
+    public boolean existsById(Long id) {
+        return instituteRepository.existsById(id);
+    }
+
     public Institute getById(Long id) {
         if( !instituteRepository.existsById(id) ) {
             throw new EntityIdNotFoundException("Institute with id " + id + " does not exist");

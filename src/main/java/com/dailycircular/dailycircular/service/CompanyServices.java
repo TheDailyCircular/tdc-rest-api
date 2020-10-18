@@ -24,6 +24,10 @@ public class CompanyServices {
         return companyRepository.findAll(PageRequest.of(page, size));
     }
 
+    public boolean existsById(Long id) {
+        return companyRepository.existsById(id);
+    }
+
     public Company getById(Long id) {
         if( !companyRepository.existsById(id) ) {
             throw new EntityIdNotFoundException("Company with id " + id + " does not exist");

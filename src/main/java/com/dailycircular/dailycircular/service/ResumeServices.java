@@ -35,6 +35,10 @@ public class ResumeServices {
         return resumeRepository.save(resume);
     }
 
+    public boolean existsById(Long id) {
+        return resumeRepository.existsById(id);
+    }
+
     public Resume update(Resume resume) {
         if (resume.getId() == null) {
             throw new EntityIdNotFoundException("Resume id is needed for update");

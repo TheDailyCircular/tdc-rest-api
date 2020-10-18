@@ -24,6 +24,10 @@ public class DegreeServices {
         return degreeRepository.findAll(PageRequest.of(page, size));
     }
 
+    public boolean existsById(Long id) {
+        return degreeRepository.existsById(id);
+    }
+
     public Degree getById(Long id) {
         if( !degreeRepository.existsById(id) ) {
             throw new EntityIdNotFoundException("Degree with id " + id + " does not exist");
