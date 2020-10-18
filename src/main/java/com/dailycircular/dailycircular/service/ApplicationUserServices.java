@@ -69,4 +69,12 @@ public class ApplicationUserServices {
         }
         return applicationUserRepository.getOne(id);
     }
+
+    public ApplicationUser getUserByUserName(String username) {
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
+        if (applicationUser == null) {
+            //
+        }
+        return applicationUser;
+    }
 }
