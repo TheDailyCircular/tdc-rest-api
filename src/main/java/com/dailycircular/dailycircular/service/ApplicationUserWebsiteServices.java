@@ -18,6 +18,10 @@ public class ApplicationUserWebsiteServices {
         return applicationUserWebsiteRepository.save(applicationUserWebsite);
     }
 
+    public boolean existsById(Long id) {
+        return applicationUserWebsiteRepository.existsById(id);
+    }
+
     public ApplicationUserWebsite getById(Long id) {
         if( !applicationUserWebsiteRepository.existsById(id) ) {
             throw new EntityIdNotFoundException("Application user website with ID: " + id + " does not exist");

@@ -18,6 +18,10 @@ public class ApplicationUserImageServices {
         return applicationUserImageRepository.save(applicationUserImage);
     }
 
+    public boolean existsById(Long id) {
+        return applicationUserImageRepository.existsById(id);
+    }
+
     public ApplicationUserImage getById(Long id) {
         if( !applicationUserImageRepository.existsById(id) ) {
             throw new EntityIdNotFoundException("Application user image with ID: " + id + " does not exist");

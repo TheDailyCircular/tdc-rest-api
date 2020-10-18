@@ -26,6 +26,10 @@ public class OrganizationServices {
         return organizationRepository.findAll(PageRequest.of(page, size));
     }
 
+    public boolean existsById(Long id) {
+        return organizationRepository.existsById(id);
+    }
+
     public Organization getById(Long id) {
         if (!organizationRepository.existsById(id)) {
             throw new EntityIdNotFoundException("Organization with ID: " + id + " doesn't exist");

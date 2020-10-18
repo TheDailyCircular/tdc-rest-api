@@ -26,6 +26,10 @@ public class ApplicationUserServices {
         this.applicationUserRepository = applicationUserRepository;
     }
 
+    public boolean existsById(Long id) {
+        return applicationUserRepository.existsById(id);
+    }
+
     public List<Circular> getCirculars(String username) {
         ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
         if (applicationUser == null) {
